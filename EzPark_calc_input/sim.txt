@@ -1,0 +1,2 @@
+Car 1 left space 2
+Car 2 parked at 4
