@@ -38,3 +38,11 @@ body h3 {
     background-color: #DEB887;
     color: black;
 }
+div img {
+   width: 420px; 
+   float: left;
+}
+
+#caption {
+    float: right;
+}
