@@ -6,8 +6,9 @@ from os import listdir
 # private helper function to read in available spaces in the parking lot
 def readInput():
     filesInSimInput = sorted(listdir("EzPark_sim_input/"))
-    filename = "EzPark_sim_input/" + filesInSimInput[len(filesInSimInput)-1]
-    print("Reading availability file", filename)
+    filename = filesInSimInput[len(filesInSimInput)-1]
+    print("Reading availability from ", filename)
+    filename = "EzPark_sim_input/" + filename
     f = open(filename)
     totalSpaces = f.readline().strip()
     avSpaces = f.readline().split()
@@ -18,11 +19,12 @@ def readInput():
     f.close()
     return totalSpaces, avSpaces
 
-def outputSim():
+def outputSim(totalSpaces):
     totalSpaces, avSpaces = readInput()
     fileCount = len(listdir("EzPark_calc_input/")) + 1
-    filename = "EzPark_calc_input/sim_" + str(fileCount) + ".txt"
+    filename = str(fileCount) + ".txt"
     print("Writing to simulation file", filename)
+    filename = "EzPark_calc_input/sim_" + filename
 
     f = open(filename, "w")
     i = 1
@@ -32,6 +34,7 @@ def outputSim():
     if len(avSpaces) < 3:
         min = len(avSpaces)
     idxs = getNRandomSpaces(len(avSpaces), min)
+    #print("\tAvailable Spaces:",avSpaces)
     #print("\tRandom indices in av spaces:", idxs)
     for idx in idxs:
         line = "Car " + str(i) + " parked at " + str(avSpaces[idx]) + "\n"
@@ -39,16 +42,20 @@ def outputSim():
         f.write(line)
 
     # simulate cars leaving parking lot
-    parkingLot = set(range(1,int(totalSpaces)+1))
     avSpaces = set(avSpaces)
-    bookedSpaces = parkingLot.difference(avSpaces)
+    bookedSpaces = []
+    totalSpaces = int(totalSpaces)
+    for i in range(1,totalSpaces+1):
+        if i not in avSpaces:
+            bookedSpaces.append(i)
     min = 3
     if len(bookedSpaces) < 3:
         min = len(bookedSpaces)
     idxs = getNRandomSpaces(len(bookedSpaces), min)
+    #print("\tBooked Spaces:", bookedSpaces)
     #print("\tRandom indices in booked spaces:", idxs)
     for idx in idxs:
-        line = "Car", i, " left space ", bookedSpaces[idx], "\n"
+        line = "Car" + str(i) + " left space " + str(bookedSpaces[idx]) + "\n"
         i += 1
         f.write(line)
 

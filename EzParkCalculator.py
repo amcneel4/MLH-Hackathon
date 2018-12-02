@@ -41,7 +41,7 @@ def readInput():
         #line = f.readline()
 
     f.close()
-    return spaces
+    return totalSpaces, spaces
 
 def updateTakenSpaces(spaces):
     filesInCalcInput = sorted(listdir('EzPark_calc_input/'))
@@ -70,7 +70,7 @@ def getAvailableSpaces(totalSpaces, spaces):
     outputAvailabilities(totalSpaces, spaces)
     print("Okay, new parking lot passed to sim")
     #time.sleep(3)
-    outputSim()
+    outputSim(totalSpaces)
     print("Got New Simulated Traffic!")
     return spaces
 
@@ -86,7 +86,7 @@ def outputAvailabilities(totalSpaces, spaces):
     f.close()
 
 if __name__ == "__main__":
-    spaces = readInput()
+    totalSpaces, spaces = readInput()
     print("Built the initial parking lot")
     print("read input")
     spaces = getAvailableSpaces(totalSpaces, spaces)
